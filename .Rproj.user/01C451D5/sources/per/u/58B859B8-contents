@@ -1,0 +1,6 @@
+data<-read.csv("C:\Users\Asus\OneDrive\Documents\Data science\KidneyData.csv")
+library(ISLR)
+library(tree)
+attach(Carseats)
+dim(Carseats)
+

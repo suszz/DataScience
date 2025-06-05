@@ -1,0 +1,11 @@
+Declaration
+
+By submitting your work using the assignment link, you are certifying that:
+
+- A copy of this assignment is held in case the original is lost or damaged.
+- No part of this submission has been copied from any other student’s work or from any other third party (including generative AI).
+- No part of this submission has been submitted in another (previous or current) assessment, except where appropriately referenced and with prior permission from the subject coordinator.
+- No part of this submission has been written or produced by another person or technology, except where collaboration has been authorised.
+- This submission may be subject to plagiarism detection tools (e.g., Turnitin) for the purpose of investigating possible breaches of academic integrity.
+- This submission will not be made available to any other person unless required by the university.
+- The definitions and expectations of academic integrity outlined in the subject guide and university policies are understood and have been followed.

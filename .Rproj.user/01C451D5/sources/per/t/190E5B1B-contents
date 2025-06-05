@@ -1,0 +1,83 @@
+---
+  title: "Analysis of mtcars Dataset"
+date: "`r Sys.Date()`"
+output: 
+  word_document:
+  toc: true
+toc_depth: 2
+---
+## Introduction
+  
+#Thisreport presents a basic exploratory analysis of the built-in `mtcars` dataset in R. 
+#Theanalysis includes data viewing, summary statistics, and visualizations to better understand the dataset.
+
+#loading Data
+data(mtcars)
+
+#displays structure
+str(mtcars)
+
+summary(mtcars)
+
+#Minimum – the smallest value in the column
+#1st Quartile – the value below which 25% of the data falls
+#Median – the exact middle value when all values are sorted
+#Mean – the average of all the values
+#3rd Quartile – the value below which 75% of the data falls i.e upper
+#Maximum – the largest value in the column
+
+
+#boxplot of mpg across different cylinder counts
+boxplot(mpg ~ as.factor(cyl), 
+        data = mtcars,
+        main = "Miles per Gallon (MPG) by Number of Cylinders",
+        xlab = "Number of Cylinders",
+        ylab = "Miles per Gallon",
+        col = c("lightblue", "lightgreen", "salmon"),
+        border = "black")
+
+#The box shows the middle 50% of the data (from the 1st to 3rd quartile).
+#The line inside the box shows the median.
+#The "whiskers" show the full range of values, unless there are outliers.
+#This plot makes it easy to see that cars with more cylinders generally have lower fuel efficiency.
+
+
+#scatter plot of mpg vs hp
+plot(mtcars$mpg, mtcars$hp,
+     main = "Scatter Plot of Horsepower vs MPG",
+     xlab = "Miles Per Gallon (MPG)",
+     ylab = "Horsepower (HP)",
+     pch = 19,                 # Solid circle point
+     col = "darkblue")         # Point color
+
+# adding regression line
+abline(lm(hp ~ mpg, data = mtcars), col = "red", lwd = 2)
+
+#You’ll notice a downward trend: as horsepower increases, MPG tends to decrease.
+#The red line is a simple linear regression that highlights this relationship.
+
+
+#frequency table of the number of cylinders
+cyl_counts <- table(mtcars$cyl)
+
+barplot(cyl_counts,
+        main = "Number of Cars by Cylinder Count",
+        xlab = "Number of Cylinders",
+        ylab = "Count of Cars",
+        col = c("lightblue", "lightgreen", "salmon"),
+        border = "black")
+
+install.packages("rmarkdown")
+library(rmarkdown)
+
+rmarkdown::render("C:/Users/Asus/OneDrive/Documents/Data science/mranalysis.rmd", 
+                  output_format = "word_document")
+
+
+
+
+
+
+
+
+

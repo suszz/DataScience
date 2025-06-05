@@ -1,0 +1,167 @@
+
+setwd("C:/Users/Asus/Downloads")  
+install.packages("nycflights13")
+
+library("DBI")
+installed.packages("nycflights13")
+
+library(nycflights13)
+library(ggraph)
+library(tidyverse)
+
+packageDescription("nycflights13")
+head(airlines, 100)     # First 100 rows
+tail(flights, 100)     # Last 100 rows
+
+data(package="nycflights13")
+
+
+airlines%>% filter(carrier=="WN") %>% select(name,carrier)
+
+planes %>% filter((engines == 4) & (manufacturer == "BOEING")) %>%
+  select(tailnum,year)
+
+hot_flight_manufacturers <- flights %>%
+  inner_join(weather, by = c("year", "month", "day", "hour", "origin")) %>%
+  filter(temp > 100) %>%   # temperature in Fahrenheit
+  inner_join(planes, by = "tailnum") %>%
+  select(flight, tailnum, temp, manufacturer) %>%
+  distinct()
+
+# View result
+print(hot_flight_manufacturers)
+
+
+
+
+flights %>% filter(dep_delay > 600) %>%
+  select(year, month, day, dep_delay)
+
+
+weather %>% filter(temp > 100) %>%
+  select(temp, humid)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+flights %>% filter(dep_delay > 600) %>%
+  select(year, month, day, dep_delay)
+
+sales %>%
+  filter(!is.na(SellerG)) %>%
+  count(SellerG, sort = TRUE) %>%
+  slice_max(n, n = 15) %>%
+  ggplot(aes(x = reorder(SellerG, n), y = n)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Top 15 Real Estate Agents by Sales",
+       x = "Agent", y = "Number of Sales") +
+  theme_minimal()
+
+
+
+
+
+sales %>%
+  filter(!is.na(Suburb), !is.na(Price)) %>%
+  group_by(Suburb) %>%
+  summarise(avg_price = mean(Price, na.rm = TRUE), .groups = "drop") %>%
+  slice_max(avg_price, n = 15) %>%
+  ggplot(aes(x = reorder(Suburb, avg_price), y = avg_price)) +
+  geom_col(fill = "darkorange") +
+  coord_flip() +
+  labs(title = "Top 15 Suburbs by Avg Sale Price",
+       x = "Suburb", y = "Avg Price (AUD)") +
+  theme_minimal()
+
+
+library(treemapify)
+
+
+tree_data <- sales %>%
+  count(Regionname, Suburb, Type, name = "count") %>%
+  drop_na()
+
+ggplot(tree_data, aes(area = count, fill = Regionname,
+                      label = paste(Suburb, Type, sep = "\n"))) +
+  geom_treemap() +
+  geom_treemap_text(colour = "white", place = "centre", grow = TRUE) +
+  ggtitle("Region → Suburb → Property Type Treemap")
+
+
+
+library(lubridate)
+
+sales_time <- sales %>%
+  mutate(Date = dmy(Date),
+         Year = year(Date)) %>%
+  count(Regionname, Year)
+
+ggplot(sales_time, aes(x = Year, y = n, color = Regionname)) +
+  geom_line(size = 1.2) +
+  labs(title = "Sales Over Time by Region",
+       x = "Year", y = "Number of Sales") +
+  theme_minimal()
+
+
+
+library(lubridate)
+
+sales %>%
+  mutate(Date = dmy(Date),
+         Month = month(Date, label = TRUE),
+         Year = year(Date)) %>%
+  count(Regionname, Month) %>%
+  ggplot(aes(x = Month, y = Regionname, fill = n)) +
+  geom_tile() +
+  scale_fill_viridis_c() +
+  labs(title = "Sales Frequency Heatmap by Region and Month",
+       x = "Month", y = "Region") +
+  theme_minimal()
+
+
+
+
+
+
+
+
+sales %>%
+  filter(!is.na(Lattitude), !is.na(Longtitude), !is.na(Price)) %>%
+  group_by(Suburb) %>%
+  summarise(avg_price = mean(Price, na.rm = TRUE),
+            lat = mean(Lattitude),
+            lon = mean(Longtitude)) %>%
+  ggplot(aes(x = lon, y = lat)) +
+  geom_point(aes(size = avg_price, color = avg_price), alpha = 0.6) +
+  scale_color_viridis_c() +
+  labs(title = "Average Property Price by Suburb Location") +
+  theme_minimal()
+
+
+
+
+
+
+install.packages("GGally")
+library(GGally)
+
+sales %>%
+  select(Price, Rooms, Bedroom2, Bathroom, Car, Landsize, BuildingArea) %>%
+  drop_na() %>%
+  ggpairs(title = "Correlation Matrix: Property Features")
+

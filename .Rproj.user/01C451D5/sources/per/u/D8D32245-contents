@@ -1,0 +1,6 @@
+library(ISLR)
+attach(iris)
+summary(iris)
+library(ISLR)
+attach(iris)
+summary(iris)

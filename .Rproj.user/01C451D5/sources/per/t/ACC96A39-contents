@@ -1,0 +1,62 @@
+# beds.R
+# Plotting hospital bed needs in Sydney (July–December 2020)
+
+# Load required libraries
+library(ggplot2)
+library(dplyr)
+library(readr)
+
+# Read the CSV dataset
+data <- read_csv("epiSEIHCRD_combAge.csv")
+
+# Filter for Sydney and the period July to December 2020
+sydney_data <- data %>%
+  filter(Location == "Sydney",
+         Date >= "2020-07-01",
+         Date <= "2020-12-31")
+
+# Convert Date column to Date class (if needed)
+sydney_data$Date <- as.Date(sydney_data$Date)
+
+# Plot hospital beds needed
+plot <- ggplot(sydney_data, aes(x = Date, y = H)) +
+  geom_line(color = "red", size = 1.2) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  labs(
+    title = "Hospital Beds Needed in Sydney (July–December 2020)",
+    x = "Month",
+    y = "Number of Hospitalised Cases (H)"
+  ) +
+  theme_minimal()
+
+# Display the plot
+print(plot)
+
+# Save the plot as PNG
+ggsave("sydney_hospital_beds.png", plot = plot, width = 8, height = 5)
+
+ggplot(diamonds, aes(x = carat, y = price, color = cut)) +
+  geom_point(alpha = 0.5) +
+  labs(title = "Diamond Price vs Carat", x = "Carat", y = "Price (USD)") +
+  theme_minimal()
+
+ggplot(diamonds, aes(x = cut, y = price)) +
+  geom_boxplot(fill = "skyblue") +
+  labs(title = "Price Distribution by Cut", x = "Cut", y = "Price (USD)") +
+  theme_minimal()
+
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.3, color = "gray") +
+  geom_smooth(method = "loess", se = TRUE, color = "red", size = 1.2) +
+  labs(title = "Smoothed Trend: Price vs Carat",
+       x = "Carat", y = "Price (USD)") +
+  theme_minimal()
+
+
+
+
+
+
+
+
+
